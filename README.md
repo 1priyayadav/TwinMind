@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# TwinMind AI Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TwinMind is a high-performance, real-time AI meeting assistant web application. Designed around a rigorous 3-tier memory system and a reactive intelligence pipeline, TwinMind captures live microphone audio, transcribes it locally, and proactively generates contextual insights and actions without interrupting your workflow.
 
-Currently, two official plugins are available:
+## 🚀 Core Architecture
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The system is decoupled into three primary columns:
+1. **Live Transcript:** Uses the native `MediaRecorder` API to capture audio in 30-second slices and transcibes it via the Groq Whisper API.
+2. **Intelligence Layer:** A gatekeeper heuristic engine that evaluates transcript word counts and structural intents (e.g., questions) to autonomously generate proactive, highly-specific suggestions. All suggestions are passed through a strict 3-way validation filter (Relevance, Usefulness, Uniqueness) before rendering.
+3. **Deep Dive Chat:** A concurrent streaming chat engine allowing users to explore the AI's proactive thought process in real-time.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Frontend Framework:** React 18
+*   **Language:** TypeScript (Strict typing for all data contracts)
+*   **Build Tool:** Vite
+*   **Styling:** Vanilla CSS (Structural grid approach)
+*   **AI Engine:** Groq API 
+    *   *Audio Pipeline:* `whisper-large-v3`
+    *   *Intelligence & Chat:* `llama-3.3-70b-versatile`
+*   **Browser APIs:** `MediaRecorder` (Audio), `AbortController` (Concurrency), `LocalStorage` (Settings Sync)
 
-## Expanding the ESLint configuration
+## ⚙️ Local Setup Instructions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Because TwinMind is engineered entirely as a Client-Side React SPA (Single Page Application), there are no backend databases or node servers to configure. All logic runs directly in your browser.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/1priyayadav/TwinMind.git
+   cd TwinMind
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+4. **Boot the Application:**
+   * Open your browser and navigate to `http://localhost:5173/`.
+   * Click the **Settings** button in the top right corner.
+   * Paste your [Groq API Key](https://console.groq.com/keys) into the configuration panel.
+   * Click **Start Mic** to begin the live intelligence loop!
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📦 Export & Observability
+TwinMind features a built-in `DebugLogger` and `ExportEngine`. By clicking **Export JSON**, you can download a complete diagnostic snapshot of your session, mapping exact architectural decisions, algorithmic drops, and linked chat context states.
